@@ -2,7 +2,6 @@ import Link from "next/link";
 
 import { ModeToggle } from "@/components/layouts/mode-toggle";
 import { Button } from "@/components/ui/button";
-import { signOutAction } from "@/features/auth/actions";
 
 export function AppShell({
   user,
@@ -28,11 +27,9 @@ export function AppShell({
         </div>
         <div className="flex items-center gap-3">
           <ModeToggle />
-          <form action={signOutAction}>
-            <Button variant="outline" size="sm" type="submit">
-              Sign out
-            </Button>
-          </form>
+          <Button variant="outline" size="sm" type="button" disabled>
+            Sign out
+          </Button>
         </div>
       </header>
       <main className="mx-auto w-full max-w-6xl px-6 pb-12">{children}</main>

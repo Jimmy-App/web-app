@@ -1,3 +1,11 @@
-import { handlers } from "@/auth";
+import { NextResponse } from "next/server";
 
-export const { GET, POST } = handlers;
+const disabledPayload = { error: "Authentication is disabled." };
+
+export async function GET() {
+  return NextResponse.json(disabledPayload, { status: 501 });
+}
+
+export async function POST() {
+  return NextResponse.json(disabledPayload, { status: 501 });
+}

@@ -1,7 +1,20 @@
-import { Role } from "@prisma/client";
-import { redirect } from "next/navigation";
+export type Role = "MEMBER" | "ADMIN" | "OWNER";
 
-import { auth } from "@/auth";
+export type SessionUser = {
+  id: string;
+  email?: string | null;
+  name?: string | null;
+  activeOrgId?: string | null;
+  role?: Role | null;
+};
+
+const demoUser: SessionUser = {
+  id: "demo-user",
+  email: "demo@jimmy.dev",
+  name: "Demo User",
+  activeOrgId: "demo-org",
+  role: "OWNER",
+};
 
 const rolePriority: Record<Role, number> = {
   MEMBER: 1,
@@ -10,28 +23,20 @@ const rolePriority: Record<Role, number> = {
 };
 
 export async function getSession() {
-  return auth();
+  return { user: demoUser };
 }
 
 export async function getUser() {
-  const session = await auth();
-  return session?.user ?? null;
+  return demoUser;
 }
 
 export async function requireUser() {
-  const user = await getUser();
-  if (!user) {
-    redirect("/auth/sign-in");
-  }
-  return user;
+  return demoUser;
 }
 
 export async function requireActiveOrg() {
   const user = await requireUser();
-  if (!user.activeOrgId) {
-    redirect("/app/dashboard");
-  }
-  return { user, orgId: user.activeOrgId, role: user.role ?? null };
+  return { user, orgId: user.activeOrgId ?? "demo-org", role: user.role ?? null };
 }
 
 export function hasRequiredRole(current: Role | null, required: Role) {
@@ -44,7 +49,7 @@ export function hasRequiredRole(current: Role | null, required: Role) {
 export async function requireRole(required: Role) {
   const { user, orgId, role } = await requireActiveOrg();
   if (!hasRequiredRole(role, required)) {
-    redirect("/app/dashboard");
+    return { user, orgId, role };
   }
   return { user, orgId, role };
 }

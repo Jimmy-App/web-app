@@ -2,7 +2,6 @@ import { cacheLife, cacheTag } from "next/cache";
 
 import { DashboardView } from "@/features/dashboard/components/dashboard-view";
 import { cacheProfiles, dashboardTag } from "@/lib/cache";
-import { prisma } from "@/lib/db";
 
 export type DashboardData = {
   user: {
@@ -27,26 +26,17 @@ export async function DashboardCache({ userId }: { userId: string }) {
   cacheTag(dashboardTag(userId));
   cacheLife(cacheProfiles.dashboard);
 
-  const user = await prisma.user.findUnique({
-    where: { id: userId },
-    select: { id: true, email: true, name: true, activeOrgId: true },
-  });
+  const user = {
+    id: userId,
+    email: "demo@jimmy.dev",
+    name: "Demo User",
+    activeOrgId: "demo-org",
+  };
 
-  if (!user) {
-    return <DashboardView data={null} />;
-  }
-
-  const memberships = await prisma.membership.findMany({
-    where: { userId },
-    include: { organization: true },
-    orderBy: { createdAt: "asc" },
-  });
-
-  const organizations = memberships.map((membership) => ({
-    id: membership.organization.id,
-    name: membership.organization.name,
-    role: membership.role,
-  }));
+  const organizations = [
+    { id: "demo-org", name: "Jimmy Labs", role: "OWNER" },
+    { id: "studio-org", name: "Studio Collective", role: "ADMIN" },
+  ];
 
   const activeOrganization =
     organizations.find((org) => org.id === user.activeOrgId) ?? organizations[0] ?? null;
