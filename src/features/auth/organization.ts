@@ -1,3 +1,5 @@
+import type { Prisma } from "@prisma/client";
+
 import { prisma } from "@/lib/db";
 
 export async function createPersonalOrganization(userId: string, name: string) {
@@ -12,7 +14,7 @@ export async function createPersonalOrganization(userId: string, name: string) {
 
   const organizationName = name.trim().length ? `${name.trim()}'s Org` : "Personal";
 
-  return prisma.$transaction(async (tx) => {
+  return prisma.$transaction(async (tx: Prisma.TransactionClient) => {
     const organization = await tx.organization.create({
       data: {
         name: organizationName,
