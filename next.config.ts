@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   },
   experimental: {
     viewTransition: true, // React 19 view transitions.
+    cacheComponents: true, // Enable "use cache" directive for Cache Components.
   },
 };
 
