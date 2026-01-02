@@ -82,6 +82,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   },
   events: {
     createUser: async ({ user }) => {
+      if (!user.id) {
+        return;
+      }
+
       await createPersonalOrganization(user.id, user.name ?? "Personal");
     },
   },
