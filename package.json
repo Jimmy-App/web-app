@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NEXT_DIST_DIR=.next-dev next dev --turbo",
-    "build": "cross-env NEXT_DIST_DIR=.next-build next build",
-    "start": "cross-env NEXT_DIST_DIR=.next-build next start",
+    "build": "next build",
+    "start": "next start",
     "lint": "next lint",
     "format": "prettier --check .",
     "format:write": "prettier --write .",
