@@ -1,8 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-  reactCompiler: true,
+  reactCompiler: true, // Next 16: React Compiler support.
+  distDir: process.env.NEXT_DIST_DIR ?? ".next", // Separate dev/build output dirs via scripts.
+  logging: {
+    fetches: { fullUrl: true },
+    incomingRequests: true,
+  },
+  experimental: {
+    viewTransition: true, // React 19 view transitions.
+  },
 };
 
 export default nextConfig;
