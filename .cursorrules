@@ -1,0 +1,7 @@
+- Keep features isolated under src/features with api.ts, schemas.ts, and components.
+- Use mockDb and mockAuth from src/lib/mock-db.ts for all data access.
+- Import Prisma types from @prisma/client; avoid redefining model types.
+- App Router pages should delegate UI to feature components.
+- Prefer shadcn/ui components from src/components/ui.
+- Forms use React Hook Form + Zod with loading and error states.
+- Sidebar and org switcher live under src/components/layout.

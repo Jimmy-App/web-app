@@ -1,36 +1,34 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata } from "next"
+import { Fraunces, Space_Grotesk } from "next/font/google"
+import "./globals.css"
 
-import { ThemeProvider } from "@/components/layouts/theme-provider";
-import "@/styles/globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-});
+  variable: "--font-sans",
+  display: "swap"
+})
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const fraunces = Fraunces({
   subsets: ["latin"],
-});
+  variable: "--font-display",
+  display: "swap"
+})
 
 export const metadata: Metadata = {
-  title: "Jimmy",
-  description: "SaaS platform foundation.",
-};
+  title: "Jimmy Coach",
+  description: "Coach your clients with calm, modern workflows"
+}
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  children
+}: {
+  children: React.ReactNode
+}) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-        </ThemeProvider>
+    <html lang="en" className={`${spaceGrotesk.variable} ${fraunces.variable}`}>
+      <body className="font-[var(--font-sans)] text-[15px] antialiased">
+        {children}
       </body>
     </html>
-  );
+  )
 }
